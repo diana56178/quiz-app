@@ -1,6 +1,7 @@
 package com.flashcards.ui;
 
 import com.flashcards.model.QuizCard;
+import com.flashcards.repository.FileQuizCardRepository;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ public class QuizCardBuilder {
     private JTextArea question;
     private JTextArea answer;
     private JFrame frame;
+    private final FileQuizCardRepository repository = new FileQuizCardRepository();
 
     public static void main(String[] args) {
         new QuizCardBuilder().go();
@@ -91,7 +93,23 @@ public class QuizCardBuilder {
 
         JFileChooser fileSave = new JFileChooser();
         fileSave.showSaveDialog(frame);
-        saveFile(fileSave.getSelectedFile());
+
+        File file = fileSave.getSelectedFile();
+
+        if (file == null) {
+            return;
+        }
+
+        try {
+            repository.save(file, cardList);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "Couldn't save file.",
+                    "save error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     private void clearAll() {
@@ -103,16 +121,5 @@ public class QuizCardBuilder {
         question.setText("");
         answer.setText("");
         question.requestFocus();
-    }
-
-    private void saveFile(File file) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            for (QuizCard card : cardList) {
-                writer.write(card.getQuestion() + "/");
-                writer.write(card.getAnswer() + "\n");
-            }
-        } catch (IOException e) {
-            System.out.println("Couldn't close writer: " + e.getMessage());
-        }
     }
 }
