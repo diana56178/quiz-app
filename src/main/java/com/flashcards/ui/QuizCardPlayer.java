@@ -1,4 +1,6 @@
-package com.flashcards;
+package com.flashcards.ui;
+
+import com.flashcards.model.QuizCard;
 
 import javax.swing.*;
 import java.awt.*;

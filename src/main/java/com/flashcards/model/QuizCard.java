@@ -1,4 +1,4 @@
-package com.flashcards;
+package com.flashcards.model;
 
 public class QuizCard {
     private String question;
