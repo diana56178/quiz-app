@@ -6,7 +6,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileQuizCardRepository {
+public class FileQuizCardRepository implements QuizCardRepository {
+    @Override
     public void save(File file, List<QuizCard> cards) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (QuizCard card : cards) {
@@ -18,6 +19,7 @@ public class FileQuizCardRepository {
         }
     }
 
+    @Override
     public List<QuizCard> load(File file) throws IOException {
         List<QuizCard> cards = new ArrayList<>();
 

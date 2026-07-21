@@ -2,6 +2,7 @@ package com.flashcards.ui;
 
 import com.flashcards.model.QuizCard;
 import com.flashcards.repository.FileQuizCardRepository;
+import com.flashcards.repository.QuizCardRepository;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,7 @@ public class QuizCardBuilder {
     private JTextArea question;
     private JTextArea answer;
     private JFrame frame;
-    private final FileQuizCardRepository repository = new FileQuizCardRepository();
+    private final QuizCardRepository repository = new FileQuizCardRepository();
 
     public static void main(String[] args) {
         new QuizCardBuilder().go();
