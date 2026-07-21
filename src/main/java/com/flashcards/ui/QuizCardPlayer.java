@@ -1,20 +1,22 @@
 package com.flashcards.ui;
 
 import com.flashcards.model.QuizCard;
+import com.flashcards.repository.FileQuizCardRepository;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class QuizCardPlayer {
-    private ArrayList<QuizCard> cardList;
+    private List<QuizCard> cardList;
     private int currentCardIndex;
     private QuizCard currentCard;
     private JTextArea display;
     private JFrame frame;
     private JButton nextButton;
     private boolean isShowAnswer;
+    private final FileQuizCardRepository repository = new FileQuizCardRepository();
 
     public static void main(String[] args) {
         QuizCardPlayer reader = new QuizCardPlayer();
@@ -72,30 +74,30 @@ public class QuizCardPlayer {
     private void open() {
         JFileChooser fileOpen = new JFileChooser();
         fileOpen.showOpenDialog(frame);
-        loadFile(fileOpen.getSelectedFile());
+
+        File file = fileOpen.getSelectedFile();
+
+        if (file == null) {
+            return;
+        }
+
+        loadFile(file);
     }
 
     private void loadFile(File file) {
-        cardList = new ArrayList<>();
         currentCardIndex = 0;
+
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                makeCard(line);
-            }
-            reader.close();
+            cardList = repository.load(file);
         } catch (IOException e) {
-            System.out.println("Couldn't write the cardList out: " + e.getMessage());
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "Couldn't load file.",
+                    "Load error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
         showNextCard();
-    }
-
-    private void makeCard(String lineToParse) {
-        String[] result = lineToParse.split("/");
-        QuizCard card = new QuizCard(result[0], result[1]);
-        cardList.add(card);
-        System.out.println("made a card");
     }
 
     private void showNextCard() {
