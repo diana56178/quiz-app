@@ -1,8 +1,8 @@
 package com.flashcards.ui;
 
 import com.flashcards.model.QuizCard;
-import com.flashcards.repository.FileQuizCardRepository;
-import com.flashcards.repository.QuizCardRepository;
+import com.flashcards.service.FileQuizCardService;
+import com.flashcards.service.QuizCardService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,7 @@ public class QuizCardPlayer {
     private JFrame frame;
     private JButton nextButton;
     private boolean isShowAnswer;
-    private final QuizCardRepository repository = new FileQuizCardRepository();
+    private final QuizCardService service = new FileQuizCardService();
 
     public static void main(String[] args) {
         QuizCardPlayer reader = new QuizCardPlayer();
@@ -89,7 +89,7 @@ public class QuizCardPlayer {
         currentCardIndex = 0;
 
         try {
-            cardList = repository.load(file);
+            cardList = service.load(file);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(
                     frame,

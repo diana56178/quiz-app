@@ -1,8 +1,8 @@
 package com.flashcards.ui;
 
 import com.flashcards.model.QuizCard;
-import com.flashcards.repository.FileQuizCardRepository;
-import com.flashcards.repository.QuizCardRepository;
+import com.flashcards.service.FileQuizCardService;
+import com.flashcards.service.QuizCardService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ public class QuizCardBuilder {
     private JTextArea question;
     private JTextArea answer;
     private JFrame frame;
-    private final QuizCardRepository repository = new FileQuizCardRepository();
+    private final QuizCardService service = new FileQuizCardService();
 
     public static void main(String[] args) {
         new QuizCardBuilder().go();
@@ -102,7 +102,7 @@ public class QuizCardBuilder {
         }
 
         try {
-            repository.save(file, cardList);
+            service.save(file, cardList);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(
                     frame,
