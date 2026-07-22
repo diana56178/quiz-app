@@ -32,6 +32,8 @@ bin/
 # IntelliJ IDEA
 .idea/
 *.iml
-out/
 target/
 build/
+
+src/main/java/com/flashcards/practice/
+expenses.txt

@@ -1,4 +1,0 @@
-Food;450
-Transport;120
-Books;900
-Coffee;200
